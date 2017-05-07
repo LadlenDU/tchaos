@@ -32,7 +32,7 @@
 
 <div class="container" id="global_wrapper">
 
-    <form class="form-inline">
+    <form class="form-inline top_row">
         <div class="form-group">
             <label for="width_img_size">Width:&nbsp;</label>
             <input type="text" maxlength="4" name="width" class="form-control" id="width_img_size" placeholder="Width">
@@ -50,8 +50,10 @@
         <button type="submit" class="btn btn-default" title="Generate a texture">Create</button>
     </form>
 
-    <div id="draw"></div>
-    <canvas id="canvas" style="width: 100px; height: 100px; border: solid black 1px;"></canvas>
+    <!--<div id="draw"></div>-->
+    <canvas id="canvas" style="width: 100px; height: 100px; border: solid black 1px; display: none"></canvas>
+
+    <div class="texture_container">fff</div>
 
     <script>
         var canvas = new Surface("canvas", 100, 100);
@@ -68,13 +70,13 @@
         canvas.show();
     </script>
 
-</div>
+    <footer class="footer">
+        <!--<div class="container">-->
+            <p class="text-muted">©2017 Axe-Era</p>
+        <!--</div>-->
+    </footer>
 
-<footer class="footer">
-    <div class="container">
-        <p class="text-muted">©2017 Tex-Era</p>
-    </div>
-</footer>
+</div>
 
 <!--<script src="js/bootstrap.min.js"></script>-->
 </body>
