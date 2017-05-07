@@ -9,7 +9,7 @@
     <meta name="description" content="Online generator of tiled textures."/>
 
     <!-- Bootstrap -->
-    <link href="/libs/bootstrap-3.3.7-dist/css/bootstrap.min.cssr" rel="stylesheet">
+    <link href="/libs/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -18,21 +18,37 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link type="text/css" rel="stylesheet" href="css/common.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/common.css"/>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
     <!-- TODO: move into the end -->
-    <script src="js/helpers.js"></script>
-    <script src="js/core.js"></script>
-    <script src="js/draw/fill.js"></script>
+    <script src="/js/helpers.js"></script>
+    <script src="/js/core.js"></script>
+    <script src="/js/draw/fill.js"></script>
 </head>
 
 <body>
 
 <div class="container" id="global_wrapper">
 
-    Width: <input type="text" maxlength="4" name="width"> Height: <input type="text" maxlength="4" name="width">
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="width_img_size">Width:&nbsp;</label>
+            <input type="text" maxlength="4" name="width" class="form-control" id="width_img_size" placeholder="Width">
+        </div>
+        <div class="form-group">
+            <label for="height_img_size">Height:&nbsp;</label>
+            <input type="text" maxlength="4" name="height" class="form-control" id="height_img_size"
+                   placeholder="Height">
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="tile"> Tile
+            </label>
+        </div>
+        <button type="submit" class="btn btn-default" title="Generate a texture">Create</button>
+    </form>
 
     <div id="draw"></div>
     <canvas id="canvas" style="width: 100px; height: 100px; border: solid black 1px;"></canvas>
@@ -60,5 +76,6 @@
     </div>
 </footer>
 
+<!--<script src="js/bootstrap.min.js"></script>-->
 </body>
 </html>
