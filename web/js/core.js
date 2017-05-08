@@ -23,18 +23,4 @@ function Surface(element, width, height) {
     this.show = function () {
         ctx.putImageData(imageData, 0, 0);
     };
-
-
-    /*var id = ctx.createImageData(1, 1);
-     var d = id.data;
-
-     this.px = function (x, y, col) {
-     //var id = myContext.createImageData(1, 1);    // only do this once per page
-     //var d = id.data;                           // only do this once per page
-     d[0] = col.r;
-     d[1] = col.g;
-     d[2] = col.b;
-     d[3] = col.a;
-     ctx.putImageData(id, x, y);
-     }*/
 }
