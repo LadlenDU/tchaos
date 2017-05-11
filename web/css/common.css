@@ -81,9 +81,13 @@ html, body {
     display: table-cell;
     text-align: center;
     vertical-align: middle;
-    background-color: green;
+    /*background-color: green;*/
     min-height: 20px;
     padding: 10px 0;
+    border: #AAA solid 1px;
+
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .footer {

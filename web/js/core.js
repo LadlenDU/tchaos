@@ -9,7 +9,7 @@ function Surface(element, width, height) {
 
     var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     var data = imageData.data;
-    console.log("data.length" + data.length);
+    clog("data.length: " + data.length);
 
     this.px = function (x, y, col) {
         var pos = y * 4 * canvas.width + x * 4;
@@ -20,7 +20,11 @@ function Surface(element, width, height) {
         data[pos + 3] = col.a;
     };
 
-    this.show = function () {
+    this.putImageData = function () {
         ctx.putImageData(imageData, 0, 0);
     };
+
+    this.toDataURL = function () {
+        return canvas.toDataURL();
+    }
 }

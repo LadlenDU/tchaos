@@ -63,16 +63,25 @@
     <script>
         $(function () {
             $("#create").click(function () {
-                var canvas = new Surface("canvas", 100, 100);
-                for (var y = 1; y < 99; ++y) {
-                    for (var x = 1; x < 99; ++x) {
-                        //var col = {r: 200, g: 0, b: 10, a: 255};
-                        var col = {r: 0, g: 255, b: 0, a: 255};
-                        canvas.px(x, y, col);
+                var width = $("#width_img_size").val();
+                var height = $("#height_img_size").val();
+
+                var rndCol = pic.getRandomColor();
+
+                var canvas = new Surface("canvas", width, height);
+                for (var y = 0; y < width; ++y) {
+                    for (var x = 0; x < height; ++x) {
+                        //var col = {r: 0, g: 0, b: 255, a: 255};
+                        canvas.px(x, y, rndCol);
                     }
                 }
 
-                canvas.show();
+                canvas.putImageData();
+
+                var dataUrl = canvas.toDataURL();
+                $(".texture_container").css('background-image', "url(" + dataUrl + ")");
+
+                return false;
             });
         });
     </script>
