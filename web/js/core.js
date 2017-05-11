@@ -1,6 +1,7 @@
-function Surface(element, width, height) {
+function Surface(width, height) {
 
-    var canvas = document.getElementById(element);
+    //var canvas = document.getElementById(element);
+    var canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     var ctx = canvas.getContext('2d');
@@ -13,7 +14,7 @@ function Surface(element, width, height) {
 
     this.px = function (x, y, col) {
         var pos = y * 4 * canvas.width + x * 4;
-        //console.log("x=" + x + "; y=" + y + "; pos=" + pos);
+        //clog("x=" + x + "; y=" + y + "; pos=" + pos);
         data[pos] = col.r;
         data[pos + 1] = col.g;
         data[pos + 2] = col.b;

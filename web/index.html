@@ -53,9 +53,6 @@
         </div>
     </form>
 
-    <!--<div id="draw"></div>-->
-    <canvas id="canvas" style="width: 100px; height: 100px; border: solid black 1px; display: none"></canvas>
-
     <div class="texture_container_wrapper">
         <div class="texture_container"></div>
     </div>
@@ -68,17 +65,17 @@
 
                 var rndCol = pic.getRandomColor();
 
-                var canvas = new Surface("canvas", width, height);
-                for (var y = 0; y < width; ++y) {
-                    for (var x = 0; x < height; ++x) {
+                var surface = new Surface(width, height);
+                for (var y = 0; y < height; ++y) {
+                    for (var x = 0; x < width; ++x) {
                         //var col = {r: 0, g: 0, b: 255, a: 255};
-                        canvas.px(x, y, rndCol);
+                        surface.px(x, y, rndCol);
                     }
                 }
 
-                canvas.putImageData();
+                surface.putImageData();
 
-                var dataUrl = canvas.toDataURL();
+                var dataUrl = surface.toDataURL();
                 $(".texture_container").css('background-image', "url(" + dataUrl + ")");
 
                 return false;
