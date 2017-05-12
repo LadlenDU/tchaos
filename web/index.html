@@ -49,7 +49,8 @@
                     <input type="checkbox" name="tile" checked="checked"> Tile
                 </label>
             </div>
-            <button type="submit" class="btn btn-default" title="Generate a texture" id="create">Create</button>
+            <button class="btn btn-default" title="Generate a texture" name="create_btn">Create</button>
+            <button class="btn btn-default" title="Save the texture" name="save_btn" disabled="disabled">Save</button>
         </div>
     </form>
 
@@ -59,9 +60,17 @@
 
     <script>
         $(function () {
+            var dataUrl;
+
             var wrapper = $("#global_wrapper");
 
-            wrapper.find("#create").click(function () {
+            wrapper.find("[name=save_btn]").click(function () {
+                if (dataUrl) {
+                    $.post();
+                }
+            });
+
+            wrapper.find("[name=create_btn]").click(function () {
                 var width = $("#width_img_size").val();
                 var height = $("#height_img_size").val();
 
@@ -79,15 +88,18 @@
                 var canvas = new Canvas(width, height);
                 var ctx = canvas.ctx();
                 ctx.beginPath();
-                ctx.moveTo(75,50);
-                ctx.lineTo(200,75);
-                ctx.lineTo(100,25);
+                ctx.moveTo(75, 50);
+                ctx.lineTo(200, 75);
+                ctx.lineTo(100, 25);
                 ctx.fill();
 
+                dSurface.ctx().globalAlpha = 0.2;
                 dSurface.ctx().drawImage(canvas.canvas(), 0, 0);
 
-                var dataUrl = dSurface.toDataURL();
+                dataUrl = dSurface.toDataURL();
                 $(".texture_container").css('background-image', "url(" + dataUrl + ")");
+
+                $(this).prop("disabled", false);
 
                 return false;
             });
