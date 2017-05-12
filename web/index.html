@@ -80,11 +80,15 @@
 
                 return false;
             });
+
+            $("#global_wrapper [name=tile]").change(function () {
+                $(".texture_container").css("background-repeat", this.checked ? "repeat" : "no-repeat");
+            });
         });
     </script>
 
     <footer class="footer">
-        <p class="text-muted">©2017 Axe-Era</p>
+        <p class="text-muted">© 2017 Axe-Era</p>
     </footer>
 
 </div>

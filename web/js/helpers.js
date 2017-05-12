@@ -4,23 +4,45 @@ function clog(text) {
     }
 }
 
-function getRandomChannel(min, max) {
-    if (!min) {
-        min = 0;
-    }
-    if (!max) {
-        max = 256;
-    }
-    return Math.floor(Math.random() * (max - min)) + min;
-}
+/*function getRandomChannel(min, max) {
+ if (!min) {
+ min = 0;
+ }
+ if (!max) {
+ max = 256;
+ }
+ return Math.floor(Math.random() * (max - min)) + min;
+ }*/
 
 var pic = {
+    getRandomChannel: function (min, max) {
+        if (!min) {
+            min = 0;
+        }
+        if (!max) {
+            max = 256;
+        }
+        return Math.floor(Math.random() * (max - min)) + min;
+    },
+
     getRandomColor: function (min, max) {
         return {
-            r: getRandomChannel(min, max),
-            g: getRandomChannel(min, max),
-            b: getRandomChannel(min, max),
-            a: getRandomChannel(min, max)
+            r: this.getRandomChannel(min, max),
+            g: this.getRandomChannel(min, max),
+            b: this.getRandomChannel(min, max),
+            a: this.getRandomChannel(min, max)
         };
     }
+};
+
+
+var helper = {};
+
+helper.extend = function (Child, Parent) {
+    var F = function () {
+    };
+    F.prototype = Parent.prototype;
+    Child.prototype = new F();
+    Child.prototype.constructor = Child;
+    Child.superclass = Parent.prototype;
 };

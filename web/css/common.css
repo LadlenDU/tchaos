@@ -86,7 +86,7 @@ html, body {
     padding: 10px 0;
     border: #AAA solid 1px;
 
-    background-repeat: no-repeat;
+    /*background-repeat: no-repeat;*/
     background-position: center;
 }
 
