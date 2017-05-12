@@ -59,29 +59,40 @@
 
     <script>
         $(function () {
-            $("#create").click(function () {
+            var wrapper = $("#global_wrapper");
+
+            wrapper.find("#create").click(function () {
                 var width = $("#width_img_size").val();
                 var height = $("#height_img_size").val();
 
                 var rndCol = pic.getRandomColor();
 
-                var surface = new Surface(width, height);
+                var dSurface = new DirectSurface(width, height);
                 for (var y = 0; y < height; ++y) {
                     for (var x = 0; x < width; ++x) {
                         //var col = {r: 0, g: 0, b: 255, a: 255};
-                        surface.px(x, y, rndCol);
+                        dSurface.px(x, y, rndCol);
                     }
                 }
+                dSurface.putImageData();
 
-                surface.putImageData();
+                var canvas = new Canvas(width, height);
+                var ctx = canvas.ctx();
+                ctx.beginPath();
+                ctx.moveTo(75,50);
+                ctx.lineTo(200,75);
+                ctx.lineTo(100,25);
+                ctx.fill();
 
-                var dataUrl = surface.toDataURL();
+                dSurface.ctx().drawImage(canvas.canvas(), 0, 0);
+
+                var dataUrl = dSurface.toDataURL();
                 $(".texture_container").css('background-image', "url(" + dataUrl + ")");
 
                 return false;
             });
 
-            $("#global_wrapper [name=tile]").change(function () {
+            wrapper.find("[name=tile]").change(function () {
                 $(".texture_container").css("background-repeat", this.checked ? "repeat" : "no-repeat");
             });
         });

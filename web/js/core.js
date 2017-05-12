@@ -1,19 +1,39 @@
-function Surface(width, height) {
+function Canvas(width, height) {
 
-    //var canvas = document.getElementById(element);
-    var canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    var ctx = canvas.getContext('2d');
+    var canvasThis = this;
 
-    clog("canvas.width2=" + canvas.width + "; canvas.height2=" + canvas.height);
+    this._canvas = document.createElement('canvas');
+    this._canvas.width = width;
+    this._canvas.height = height;
+    clog("_canvas.width = " + this._canvas.width + "; _canvas.height = " + this._canvas.height);
 
-    var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    this._ctx = this._canvas.getContext('2d');
+
+    this.toDataURL = function () {
+        return canvasThis._canvas.toDataURL();
+    };
+
+    this.canvas = function () {
+        return canvasThis._canvas;
+    };
+
+    this.ctx = function () {
+        return canvasThis._ctx;
+    };
+}
+
+function DirectSurface(width, height) {
+
+    DirectSurface.superclass.constructor.call(this, width, height);
+
+    var imageData = this._ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
     var data = imageData.data;
-    clog("data.length: " + data.length);
+    clog("data.length = " + data.length);
+
+    var wWidth = 4 * this._canvas.width;
 
     this.px = function (x, y, col) {
-        var pos = y * 4 * canvas.width + x * 4;
+        var pos = y * wWidth + x * 4;
         //clog("x=" + x + "; y=" + y + "; pos=" + pos);
         data[pos] = col.r;
         data[pos + 1] = col.g;
@@ -22,10 +42,20 @@ function Surface(width, height) {
     };
 
     this.putImageData = function () {
-        ctx.putImageData(imageData, 0, 0);
+        this._ctx.putImageData(imageData, 0, 0);
     };
-
-    this.toDataURL = function () {
-        return canvas.toDataURL();
-    }
 }
+
+/*function Surface(width, height) {
+
+    DirectSurface.superclass.constructor.call(this, width, height);
+
+    var surfaceThis = this;
+
+    this.ctx = function () {
+        return surfaceThis._ctx;
+    }
+}*/
+
+helper.extend(DirectSurface, Canvas);
+//helper.extend(Surface, Canvas);
