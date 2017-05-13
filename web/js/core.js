@@ -49,12 +49,24 @@ function DirectSurface(canvas) {
 function directDraw(canvas, func) {
     var surf = new DirectSurface(canvas);
 
-    var width = canvas.canvas().width;
-    var height = canvas.canvas().height;
+    //var width = canvas.canvas().width;
+    //var height = canvas.canvas().height;
 
-    func(surf, width, height);
+    func(surf); //, width, height);
 
     surf.putImageData();
+}
+
+function prepareProperties(obj) {
+    var readyProps = {};
+
+    for (var prop in obj) {
+        //props_r[prop].apply(null, obj[prop]);
+        readyProps[prop] = props_r[prop].apply(props_r, obj[prop]);
+
+    }
+
+    return readyProps;
 }
 
 var props_r = {

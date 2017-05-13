@@ -1,14 +1,11 @@
 draw.fill = {
-    props: function () {
+    props: {color: []},
+    run: function (canvas, width, height, props) {
 
-    },
-    run: function (canvas, props) {
-        if (!props) {
+        canvas.ctx().fillStyle = props.color;
+        canvas.ctx().fillRect(0, 0, width - 1, height - 1);
 
-        }
-        //canvas.ctx().
-
-        directDraw(canvas, function (surf, width, height) {
+        directDraw(canvas, function (surf) {
             var rndCol = pic.getRandomColor();
             for (var y = 0; y < height; ++y) {
                 for (var x = 0; x < width; ++x) {

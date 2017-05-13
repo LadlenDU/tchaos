@@ -4,6 +4,7 @@ function clog(text) {
     }
 }
 
+//TODO: obsolete
 var pic = {
     getRandomChannel: function (min, max) {
         if (!min) {

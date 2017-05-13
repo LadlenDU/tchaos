@@ -77,7 +77,9 @@
                 var height = $("#height_img_size").val();
 
                 var canvas = new Canvas(width, height);
-                draw.fill(canvas);
+
+                var props = prepareProperties(draw.fill.props);
+                draw.fill.run(canvas, width, height, props);
 
                 var canvas2 = new Canvas(width, height);
                 draw.figures(canvas2);
