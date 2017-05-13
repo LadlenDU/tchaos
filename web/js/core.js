@@ -69,6 +69,31 @@ function prepareProperties(obj) {
     return readyProps;
 }
 
+var pic = {
+    colorArrToRGBA: function (arr) {
+        return "rgba(" + arr.r + "," + arr.g + "," + arr.b + "," + (arr.a / 255) + ")";
+    },
+    //TODO: obsolete
+    getRandomChannel: function (min, max) {
+        if (!min) {
+            min = 0;
+        }
+        if (!max) {
+            max = 256;
+        }
+        return Math.floor(Math.random() * (max - min)) + min;
+    },
+    //TODO: obsolete
+    getRandomColor: function (min, max) {
+        return {
+            r: this.getRandomChannel(min, max),
+            g: this.getRandomChannel(min, max),
+            b: this.getRandomChannel(min, max),
+            a: this.getRandomChannel(min, max)
+        };
+    }
+};
+
 var props_r = {
     // If max is not set or min == max then this is not a range but a regular number equal min.
     range_int: function (min, max) {
@@ -78,7 +103,7 @@ var props_r = {
         if (max < min) {
             clog("MAX " + max + " less than MIN " + min);
         }
-        return Math.floor(Math.random() * (max - min)) + min;
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     },
     color: function (r, g, b) {
         var col = {};
