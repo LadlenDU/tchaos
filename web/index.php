@@ -60,6 +60,7 @@
 
     <script>
         $(function () {
+
             var dataUrl;
 
             var wrapper = $("#global_wrapper");

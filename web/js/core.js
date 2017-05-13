@@ -23,28 +23,6 @@ function Canvas(width, height) {
     this.ctx = function () {
         return canvasThis._ctx;
     };
-
-    //this.surface = function () {
-    //return new DirectSurface(canvas);
-    /*var imageData = canvasThis._ctx.getImageData(0, 0, canvasThis._canvas.width, canvasThis._canvas.height);
-     var data = imageData.data;
-     clog("data.length = " + data.length);
-
-     var wWidth = 4 * canvasThis._canvas.width;
-
-     this.px = function (x, y, col) {
-     var pos = y * wWidth + x * 4;
-     //clog("x=" + x + "; y=" + y + "; pos=" + pos);
-     data[pos] = col.r;
-     data[pos + 1] = col.g;
-     data[pos + 2] = col.b;
-     data[pos + 3] = col.a;
-     };
-
-     this.putImageData = function () {
-     canvasThis._ctx.putImageData(imageData, 0, 0);
-     };*/
-    //};
 }
 
 function DirectSurface(canvas) {
@@ -79,61 +57,67 @@ function directDraw(canvas, func) {
     surf.putImageData();
 }
 
-/*function DirectSurface(canvas) {
- var imageData = this._ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
- var data = imageData.data;
- clog("data.length = " + data.length);
+var props_r = {
+    // If max is not set or min == max then this is not a range but a regular number equal min.
+    range_int: function (min, max) {
+        if ((!max && max !== 0) || min == max) {
+            return min;
+        }
+        if (max < min) {
+            clog("MAX " + max + " less than MIN " + min);
+        }
+        return Math.floor(Math.random() * (max - min)) + min;
+    },
+    color: function (r, g, b) {
+        var col = {};
 
- var wWidth = 4 * this._canvas.width;
+        if (!r && r !== 0) {
+            col.r = this.range_int(0, 255);
+        } else {
+            if (Array.isArray(r)) {
+                col.r = this.range_int(r.min, r.max);
+            } else {
+                col.r = r;
+            }
+        }
 
- this.px = function (x, y, col) {
- var pos = y * wWidth + x * 4;
- //clog("x=" + x + "; y=" + y + "; pos=" + pos);
- data[pos] = col.r;
- data[pos + 1] = col.g;
- data[pos + 2] = col.b;
- data[pos + 3] = col.a;
- };
+        if (!g && g !== 0) {
+            col.g = this.range_int(0, 255);
+        } else {
+            if (Array.isArray(g)) {
+                col.g = this.range_int(g.min, g.max);
+            } else {
+                col.g = g;
+            }
+        }
 
- this.putImageData = function () {
- this._ctx.putImageData(imageData, 0, 0);
- };
- }*/
+        if (!b && b !== 0) {
+            col.b = this.range_int(0, 255);
+        } else {
+            if (Array.isArray(b)) {
+                col.b = this.range_int(b.min, b.max);
+            } else {
+                col.b = b;
+            }
+        }
 
-/*function DirectSurface(width, height) {
+        col.a = 255;
 
- DirectSurface.superclass.constructor.call(this, width, height);
+        return col;
+    },
+    color_tr: function (r, g, b, a) {
+        var col = this.color(r, g, b);
 
- var imageData = this._ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
- var data = imageData.data;
- clog("data.length = " + data.length);
+        if (!a && a !== 0) {
+            col.a = this.range_int(0, 255);
+        } else {
+            if (Array.isArray(a)) {
+                col.a = this.range_int(a.min, a.max);
+            } else {
+                col.a = a;
+            }
+        }
 
- var wWidth = 4 * this._canvas.width;
-
- this.px = function (x, y, col) {
- var pos = y * wWidth + x * 4;
- //clog("x=" + x + "; y=" + y + "; pos=" + pos);
- data[pos] = col.r;
- data[pos + 1] = col.g;
- data[pos + 2] = col.b;
- data[pos + 3] = col.a;
- };
-
- this.putImageData = function () {
- this._ctx.putImageData(imageData, 0, 0);
- };
- }*/
-
-/*function Surface(width, height) {
-
- DirectSurface.superclass.constructor.call(this, width, height);
-
- var surfaceThis = this;
-
- this.ctx = function () {
- return surfaceThis._ctx;
- }
- }*/
-
-//helper.extend(DirectSurface, Canvas);
-//helper.extend(Surface, Canvas);
+        return col;
+    }
+};
