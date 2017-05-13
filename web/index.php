@@ -78,37 +78,37 @@
                 var canvas = new Canvas(width, height);
                 draw.fill(canvas);
 
-                //var canvas2 = new Canvas(width, height);
-                //draw.figures(canvas2);
+                var canvas2 = new Canvas(width, height);
+                draw.figures(canvas2);
 
-                //canvas.ctx().globalAlpha = 0.2;
-                //canvas.ctx().drawImage(canvas2.canvas(), 0, 0);
+                canvas.ctx().globalAlpha = 0.2;
+                canvas.ctx().drawImage(canvas2.canvas(), 0, 0);
 
                 dataUrl = canvas.toDataURL();
 
                 /*var rndCol = pic.getRandomColor();
 
-                var dSurface = new DirectSurface(width, height);
-                for (var y = 0; y < height; ++y) {
-                    for (var x = 0; x < width; ++x) {
-                        //var col = {r: 0, g: 0, b: 255, a: 255};
-                        dSurface.px(x, y, rndCol);
-                    }
-                }
-                dSurface.putImageData();*/
+                 var dSurface = new DirectSurface(width, height);
+                 for (var y = 0; y < height; ++y) {
+                 for (var x = 0; x < width; ++x) {
+                 //var col = {r: 0, g: 0, b: 255, a: 255};
+                 dSurface.px(x, y, rndCol);
+                 }
+                 }
+                 dSurface.putImageData();*/
 
                 /*var canvas = new Canvas(width, height);
-                var ctx = canvas.ctx();
-                ctx.beginPath();
-                ctx.moveTo(75, 50);
-                ctx.lineTo(200, 75);
-                ctx.lineTo(100, 25);
-                ctx.fill();*/
+                 var ctx = canvas.ctx();
+                 ctx.beginPath();
+                 ctx.moveTo(75, 50);
+                 ctx.lineTo(200, 75);
+                 ctx.lineTo(100, 25);
+                 ctx.fill();*/
 
                 /*dSurface.ctx().globalAlpha = 0.2;
-                dSurface.ctx().drawImage(canvas.canvas(), 0, 0);
+                 dSurface.ctx().drawImage(canvas.canvas(), 0, 0);
 
-                dataUrl = dSurface.toDataURL();*/
+                 dataUrl = dSurface.toDataURL();*/
                 $(".texture_container").css('background-image', "url(" + dataUrl + ")");
 
                 wrapper.find("[name=save_btn]").prop("disabled", false);

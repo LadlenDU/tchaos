@@ -4,16 +4,6 @@ function clog(text) {
     }
 }
 
-/*function getRandomChannel(min, max) {
- if (!min) {
- min = 0;
- }
- if (!max) {
- max = 256;
- }
- return Math.floor(Math.random() * (max - min)) + min;
- }*/
-
 var pic = {
     getRandomChannel: function (min, max) {
         if (!min) {
