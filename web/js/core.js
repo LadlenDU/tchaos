@@ -1,3 +1,6 @@
+var draw = {};
+var filter = {};
+
 function Canvas(width, height) {
 
     var canvasThis = this;
@@ -20,9 +23,73 @@ function Canvas(width, height) {
     this.ctx = function () {
         return canvasThis._ctx;
     };
+
+    this.surface = function () {
+        return new DirectSurface(canvas);
+        /*var imageData = canvasThis._ctx.getImageData(0, 0, canvasThis._canvas.width, canvasThis._canvas.height);
+        var data = imageData.data;
+        clog("data.length = " + data.length);
+
+        var wWidth = 4 * canvasThis._canvas.width;
+
+        this.px = function (x, y, col) {
+            var pos = y * wWidth + x * 4;
+            //clog("x=" + x + "; y=" + y + "; pos=" + pos);
+            data[pos] = col.r;
+            data[pos + 1] = col.g;
+            data[pos + 2] = col.b;
+            data[pos + 3] = col.a;
+        };
+
+        this.putImageData = function () {
+            canvasThis._ctx.putImageData(imageData, 0, 0);
+        };*/
+    };
 }
 
-function DirectSurface(width, height) {
+function DirectSurface(canvas) {
+    var imageData = canvas.ctx().getImageData(0, 0, canvas.canvas().width, canvas.canvas().height);
+    var data = imageData.data;
+    clog("data.length = " + data.length);
+
+    var wWidth = 4 * canvas.canvas().width;
+
+    this.px = function (x, y, col) {
+        var pos = y * wWidth + x * 4;
+        //clog("x=" + x + "; y=" + y + "; pos=" + pos);
+        data[pos] = col.r;
+        data[pos + 1] = col.g;
+        data[pos + 2] = col.b;
+        data[pos + 3] = col.a;
+    };
+
+    this.putImageData = function () {
+        canvas.ctx().putImageData(imageData, 0, 0);
+    };
+}
+
+/*function DirectSurface(canvas) {
+    var imageData = this._ctx.getImageData(0, 0, this._canvas.width, this._canvas.height);
+    var data = imageData.data;
+    clog("data.length = " + data.length);
+
+    var wWidth = 4 * this._canvas.width;
+
+    this.px = function (x, y, col) {
+        var pos = y * wWidth + x * 4;
+        //clog("x=" + x + "; y=" + y + "; pos=" + pos);
+        data[pos] = col.r;
+        data[pos + 1] = col.g;
+        data[pos + 2] = col.b;
+        data[pos + 3] = col.a;
+    };
+
+    this.putImageData = function () {
+        this._ctx.putImageData(imageData, 0, 0);
+    };
+}*/
+
+/*function DirectSurface(width, height) {
 
     DirectSurface.superclass.constructor.call(this, width, height);
 
@@ -44,7 +111,7 @@ function DirectSurface(width, height) {
     this.putImageData = function () {
         this._ctx.putImageData(imageData, 0, 0);
     };
-}
+}*/
 
 /*function Surface(width, height) {
 
@@ -57,5 +124,5 @@ function DirectSurface(width, height) {
     }
 }*/
 
-helper.extend(DirectSurface, Canvas);
+//helper.extend(DirectSurface, Canvas);
 //helper.extend(Surface, Canvas);

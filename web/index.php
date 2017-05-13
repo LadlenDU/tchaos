@@ -22,10 +22,6 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
-    <!-- TODO: move into the end -->
-    <script src="/js/helpers.js"></script>
-    <script src="/js/core.js"></script>
-    <script src="/js/draw/fill.js"></script>
 </head>
 
 <body>
@@ -75,21 +71,22 @@
                 }
             });
 
-            /*wrapper.find("[name=save_btn]").click(function () {
-             if (dataUrl) {
-             clog(dataUrl);
-             $('<form action="/save.php" method="POST">' +
-             '<input type="hidden" name="image" value="' + dataUrl + '">' +
-             '</form>').submit();
-             }
-             //return false;
-             });*/
-
             wrapper.find("[name=create_btn]").click(function () {
                 var width = $("#width_img_size").val();
                 var height = $("#height_img_size").val();
 
-                var rndCol = pic.getRandomColor();
+                var canvas = new Canvas(width, height);
+                draw.fill(canvas);
+
+                //var canvas2 = new Canvas(width, height);
+                //draw.figures(canvas2);
+
+                //canvas.ctx().globalAlpha = 0.2;
+                //canvas.ctx().drawImage(canvas2.canvas(), 0, 0);
+
+                dataUrl = canvas.toDataURL();
+
+                /*var rndCol = pic.getRandomColor();
 
                 var dSurface = new DirectSurface(width, height);
                 for (var y = 0; y < height; ++y) {
@@ -98,20 +95,20 @@
                         dSurface.px(x, y, rndCol);
                     }
                 }
-                dSurface.putImageData();
+                dSurface.putImageData();*/
 
-                var canvas = new Canvas(width, height);
+                /*var canvas = new Canvas(width, height);
                 var ctx = canvas.ctx();
                 ctx.beginPath();
                 ctx.moveTo(75, 50);
                 ctx.lineTo(200, 75);
                 ctx.lineTo(100, 25);
-                ctx.fill();
+                ctx.fill();*/
 
-                dSurface.ctx().globalAlpha = 0.2;
+                /*dSurface.ctx().globalAlpha = 0.2;
                 dSurface.ctx().drawImage(canvas.canvas(), 0, 0);
 
-                dataUrl = dSurface.toDataURL();
+                dataUrl = dSurface.toDataURL();*/
                 $(".texture_container").css('background-image', "url(" + dataUrl + ")");
 
                 wrapper.find("[name=save_btn]").prop("disabled", false);
@@ -132,5 +129,11 @@
 </div>
 
 <!--<script src="js/bootstrap.min.js"></script>-->
+
+<script src="/js/helpers.js"></script>
+<script src="/js/core.js"></script>
+<script src="/js/draw/figures.js"></script>
+<script src="/js/draw/fill.js"></script>
+
 </body>
 </html>

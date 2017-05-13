@@ -1,8 +1,6 @@
 <?php
 
 if ($_POST['image']) {
-    //$data = 'data:image/png;base64,AAAFBfj42Pj4';
-
     list($type, $data) = explode(';', $_POST['image']);
     list(, $data) = explode(',', $data);
     $data = base64_decode($data);
