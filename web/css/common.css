@@ -62,7 +62,7 @@ html, body {
     /*border-spacing: 10px;*/
 }
 
-.top_row {
+.save_img_form {
     display: table-row;
     vertical-align: top;
 }

@@ -32,7 +32,9 @@
 
 <div class="container" id="global_wrapper">
 
-    <form class="form-inline top_row">
+    <form class="form-inline save_img_form" action="/save.php" method="POST">
+        <input type="hidden" name="image">
+
         <div class="head_wrap">
             <div class="form-group">
                 <label for="width_img_size">Width:&nbsp;</label>
@@ -50,7 +52,9 @@
                 </label>
             </div>
             <button class="btn btn-default" title="Generate a texture" name="create_btn">Create</button>
-            <button class="btn btn-default" title="Save the texture" name="save_btn" disabled="disabled">Save</button>
+            <button type="submit" class="btn btn-default" title="Save the texture" name="save_btn" disabled="disabled">
+                Save
+            </button>
         </div>
     </form>
 
@@ -64,11 +68,22 @@
 
             var wrapper = $("#global_wrapper");
 
-            wrapper.find("[name=save_btn]").click(function () {
+            wrapper.find(".save_img_form").submit(function () {
                 if (dataUrl) {
-                    $.post();
+                    clog(dataUrl);
+                    $(this).find("[name=image]").val(dataUrl);
                 }
             });
+
+            /*wrapper.find("[name=save_btn]").click(function () {
+             if (dataUrl) {
+             clog(dataUrl);
+             $('<form action="/save.php" method="POST">' +
+             '<input type="hidden" name="image" value="' + dataUrl + '">' +
+             '</form>').submit();
+             }
+             //return false;
+             });*/
 
             wrapper.find("[name=create_btn]").click(function () {
                 var width = $("#width_img_size").val();
@@ -99,7 +114,7 @@
                 dataUrl = dSurface.toDataURL();
                 $(".texture_container").css('background-image', "url(" + dataUrl + ")");
 
-                $(this).prop("disabled", false);
+                wrapper.find("[name=save_btn]").prop("disabled", false);
 
                 return false;
             });
