@@ -1,4 +1,4 @@
-draw.figures = function (canvas) {
+render.figures = function (canvas) {
     var ctx = canvas.ctx();
     ctx.beginPath();
     ctx.moveTo(75, 20);

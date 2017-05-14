@@ -78,11 +78,14 @@
 
                 var canvas = new Canvas(width, height);
 
-                var props = prepareProperties(draw.fill.props);
-                draw.fill.run(canvas, width, height, props);
+                var props = prepareProperties(render.fill.props);
+                render.fill.run(canvas, width, height, props);
 
                 var canvas2 = new Canvas(width, height);
-                draw.figures(canvas2);
+                var clouds = new render.clouds();
+                props = prepareProperties(clouds.props);
+                clouds.run(canvas, width, height, props);
+                //render.figures(canvas2);
 
                 canvas.ctx().globalAlpha = 0.2;
                 canvas.ctx().drawImage(canvas2.canvas(), 0, 0);
@@ -135,8 +138,9 @@
 
 <script src="/js/helpers.js"></script>
 <script src="/js/core.js"></script>
-<script src="/js/draw/figures.js"></script>
-<script src="/js/draw/fill.js"></script>
+<script src="/js/render/figures.js"></script>
+<script src="/js/render/fill.js"></script>
+<script src="/js/render/clouds.js"></script>
 
 </body>
 </html>

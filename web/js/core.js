@@ -1,4 +1,4 @@
-var draw = {};
+var render = {};
 var filter = {};
 
 function Canvas(width, height) {

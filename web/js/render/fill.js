@@ -1,4 +1,4 @@
-draw.fill = {
+render.fill = {
     props: {color: []},
     run: function (canvas, width, height, props) {
 
