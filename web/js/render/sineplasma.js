@@ -1,8 +1,19 @@
-render.clouds = function () {
+render.sineplasma = function () {
 
     var cloudsThis = this;
 
-    this.props = {color: []};
+    this.props = {
+        color: {
+            type: 'color', val: []
+        },
+        width_div: {
+            type: 'range_int', val: [1, 10]
+        },
+        height_div: {
+            type: 'range_int', val: [1, 10]
+        }
+    };
+
     this.run = function (canvas, width, height, props) {
         directDraw(canvas, function (surf) {
             /*for (var y = 0; y < height; ++y) {
@@ -13,59 +24,62 @@ render.clouds = function () {
 
             // props.subtype
             //$this->SubpalsmaTypeOfInterpolation = $attr['sub_prop']['subtype'];
-            cloudsThis.SubpalsmaTypeOfInterpolation = 0;
+            //cloudsThis.SubpalsmaTypeOfInterpolation = 0;
 
             // props.depth
-            var $SubplasmaDepth = 10 * 257;   //$attr['sub_prop']['depth'] * 257; // TODO: ???
+            //var $SubplasmaDepth = 10 * 257;   //$attr['sub_prop']['depth'] * 257; // TODO: ???
 
-            props.type = 'sineplasma';
-            props.width_div = 5;    // for sineplasma
-            props.height_div = 5;    // for sineplasma
+            //props.type = 'sineplasma';
+            //props.width_div = 5;    // for sineplasma
+            //props.height_div = 5;    // for sineplasma
 
-            var $color = props.color;
-            var $colorRes = $color;
+            //props.color = {r: 255, g: 0, b: 0, a: 255};
+/*            var $color = props.color;
+            clog("r: " + props.color.r + "; g: " + props.color.g + "; b: " + props.color.b + "; a: " + props.color.a);
+
+            //var $colorRes = $color;
 
             var $red = $color.r;
             var $green = $color.g;
-            var $blue = $color.b;
+            var $blue = $color.b;*/
 
-            var $redBottom = $red - $SubplasmaDepth;
-            if ($redBottom < 0) {
-                $redBottom = 0;
-            }
+            /*var $redBottom = $red - $SubplasmaDepth;
+             if ($redBottom < 0) {
+             $redBottom = 0;
+             }
 
-            var $greenBottom = $green - $SubplasmaDepth;
-            if ($greenBottom < 0) {
-                $greenBottom = 0;
-            }
+             var $greenBottom = $green - $SubplasmaDepth;
+             if ($greenBottom < 0) {
+             $greenBottom = 0;
+             }
 
-            var $blueBottom = $blue - $SubplasmaDepth;
-            if ($blueBottom < 0) {
-                $blueBottom = 0;
-            }
+             var $blueBottom = $blue - $SubplasmaDepth;
+             if ($blueBottom < 0) {
+             $blueBottom = 0;
+             }*/
 
-            var $redDiffer = $red - $redBottom;
-            var $greenDiffer = $green - $greenBottom;
-            var $blueDiffer = $blue - $blueBottom;
+            /*var $redDiffer = $red - $redBottom;
+             var $greenDiffer = $green - $greenBottom;
+             var $blueDiffer = $blue - $blueBottom;*/
 
-            $color = {r: $blue, g: $green, b: $red};		// Переделка цветового формата
+            //$color = {r: $blue, g: $green, b: $red};		// Переделка цветового формата
 
             var PI_THREE_TWO = 3 / 2 * Math.PI;
 
-            if (props.type == 'sineplasma')	// Синус-плазма
-            {
+            //if (props.type == 'sineplasma')	// Синус-плазма
+            if (1) {
                 // Кружок получается из полной синус-дуги
                 var $xDel = width / props.width_div;		// if(xDel < 1) xDel = 1.2;
-                var $yDel = height / props.sine_prop;	    // if(yDel < 1) yDel = 1.2;
+                var $yDel = height / props.height_div;	    // if(yDel < 1) yDel = 1.2;
 
                 var $xKoef = (Math.PI * 2) / $xDel;
                 var $yKoef = (Math.PI * 2) / $yDel;
 
                 for (var $y = 0; $y < height; ++$y) {
                     for (var $x = 0; $x < width; ++$x) {
-                        var $channel = Math.round(128 + 64 * Math.sin($x * $xKoef + PI_THREE_TWO) + 64 * Math.sin($y * $yKoef + PI_THREE_TWO));
+                        var $channel = Math.round(127 + 64 * Math.sin($x * $xKoef + PI_THREE_TWO) + 64 * Math.sin($y * $yKoef + PI_THREE_TWO));
 
-                        var $colorT = $color;
+                        var $colorT = props.color;
                         $colorT.a = 255 - $channel;
 
                         surf.px($x, $y, $colorT);

@@ -82,9 +82,9 @@
                 render.fill.run(canvas, width, height, props);
 
                 var canvas2 = new Canvas(width, height);
-                var clouds = new render.clouds();
-                props = prepareProperties(clouds.props);
-                clouds.run(canvas, width, height, props);
+                var sineplasma = new render.sineplasma();
+                props = prepareProperties(sineplasma.props);
+                sineplasma.run(canvas2, width, height, props);
                 //render.figures(canvas2);
 
                 canvas.ctx().globalAlpha = 0.2;
@@ -140,7 +140,7 @@
 <script src="/js/core.js"></script>
 <script src="/js/render/figures.js"></script>
 <script src="/js/render/fill.js"></script>
-<script src="/js/render/clouds.js"></script>
+<script src="/js/render/sineplasma.js"></script>
 
 </body>
 </html>

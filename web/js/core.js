@@ -61,8 +61,8 @@ function prepareProperties(obj) {
     var readyProps = {};
 
     for (var prop in obj) {
-        //props_r[prop].apply(null, obj[prop]);
-        readyProps[prop] = props_r[prop].apply(props_r, obj[prop]);
+        //readyProps[prop] = props_r[prop].apply(props_r, obj[prop]);
+        readyProps[prop] = props_r[obj[prop].type].apply(props_r, obj[prop].val);
 
     }
 
