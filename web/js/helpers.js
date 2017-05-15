@@ -14,3 +14,7 @@ helper.extend = function (Child, Parent) {
     Child.prototype.constructor = Child;
     Child.superclass = Parent.prototype;
 };
+
+helper.surfaceArrayFill = function (width, height) {
+    return [].fill([].fill(0, 0, width - 1), 0, height - 1);
+};

@@ -32,6 +32,10 @@ function DirectSurface(canvas) {
 
     var wWidth = 4 * canvas.canvas().width;
 
+    this.getData = function () {
+        return data;
+    };
+
     this.px = function (x, y, col) {
         var pos = y * wWidth + x * 4;
         //clog("x=" + x + "; y=" + y + "; pos=" + pos);
@@ -39,6 +43,11 @@ function DirectSurface(canvas) {
         data[pos + 1] = col.g;
         data[pos + 2] = col.b;
         data[pos + 3] = col.a;
+    };
+
+    this.getPx = function (x, y) {
+        var pos = y * wWidth + x * 4;
+        return data[pos];
     };
 
     this.putImageData = function () {

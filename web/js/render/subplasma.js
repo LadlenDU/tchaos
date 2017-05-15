@@ -33,59 +33,16 @@ render.sineplasma = function () {
 
             cThis.surf = surf;
 
-            // props.subtype
-            //$this->SubpalsmaTypeOfInterpolation = $attr['sub_prop']['subtype'];
-            //cloudsThis.SubpalsmaTypeOfInterpolation = 0;
-
-            // props.depth
-            //var $SubplasmaDepth = 10 * 257;   //$attr['sub_prop']['depth'] * 257; // TODO: ???
-
-            //props.type = 'sineplasma';
-            //props.width_div = 5;    // for sineplasma
-            //props.height_div = 5;    // for sineplasma
-
-            //props.color = {r: 255, g: 0, b: 0, a: 255};
-            /*            var $color = props.color;
-             clog("r: " + props.color.r + "; g: " + props.color.g + "; b: " + props.color.b + "; a: " + props.color.a);
-
-             //var $colorRes = $color;
-
-             var $red = $color.r;
-             var $green = $color.g;
-             var $blue = $color.b;*/
-
-            /*var $redBottom = $red - $SubplasmaDepth;
-             if ($redBottom < 0) {
-             $redBottom = 0;
-             }
-
-             var $greenBottom = $green - $SubplasmaDepth;
-             if ($greenBottom < 0) {
-             $greenBottom = 0;
-             }
-
-             var $blueBottom = $blue - $SubplasmaDepth;
-             if ($blueBottom < 0) {
-             $blueBottom = 0;
-             }*/
-
-            /*var $redDiffer = $red - $redBottom;
-             var $greenDiffer = $green - $greenBottom;
-             var $blueDiffer = $blue - $blueBottom;*/
-
-            //$color = {r: $blue, g: $green, b: $red};		// Переделка цветового формата
-
-
             var $SubpalsmaWidthDivision = $xDiv = props.width_div;
             var $SubpalsmaHeightDivision = $yDiv = props.height_div;
 
             if (props.perlin_noise) {		// Создать и сложить 8 (несколько?) субплазм
                 // Создадим рабочее поле для плазмы
                 //$imageBuffer = array_fill(0, height, array_fill(0, width, 0));
-                var $imageBuffer = new Canvas(width, height);
+                var $imageBuffer = helper.surfaceArrayFill(width, height);
 
                 var $count = 4;		// Счетчик плазм
-                var $ResCount = new Canvas(width, height);
+                var $ResCount = helper.surfaceArrayFill(width, height);
 
                 var $colorMax = 0x00FFFFFF;		// Максимальное значение цвета для работы
 
@@ -108,9 +65,9 @@ render.sineplasma = function () {
                 }
                 cThis.colorImage($ResCount, props.depth, $colorRes);
             } else {	// Простая субплазма
-                $imageBuffer = new Canvas(width, height);
+                $imageBuffer = helper.surfaceArrayFill(width, height);
                 cThis.createPlasm($imageBuffer, $SubpalsmaWidthDivision, $SubpalsmaHeightDivision, 0x00FFFFFF);
-                cThis.colorImage($imageBuffer, $attr['sub_prop']['depth'], $colorRes);		// Разукрашиваем рисунок
+                cThis.colorImage($imageBuffer, props.depth, $colorRes);		// Разукрашиваем рисунок
             }
 
         });
@@ -124,10 +81,10 @@ render.sineplasma = function () {
 
         //#UINT* colorUpGlobal = new UINT [divKoefWidth];		// Массив для верхних точек всего рисунка
         //$colorUpGlobal = array_fill(0, $divKoefWidth, 0);
-        $colorUpGlobal = new Canvas(width, height);
+        $colorUpGlobal = helper.surfaceArrayFill(width, height);
 
         //#UINT* colorDownToUp = new UINT [divKoefWidth];		// Массив для нижних точек строки, что станут верхними
-        $colorDownToUp = new Canvas(width, height);
+        $colorDownToUp = helper.surfaceArrayFill(width, height);
 
         // Запоминают значение правых точек чтобы сделать их левыми
         $colorLeftToRightUp = 0;
@@ -274,27 +231,26 @@ render.sineplasma = function () {
      * Интерполирует на изображении от begCol до endCol, в заданных позициях
      * @param array $surfaceY полоса по оси y
      */
-    this.InterpolateXKoord = function ($surfaceY, $xPosBeg, $xPosEnd, $begCol, $endCol)
-    {
+    this.InterpolateXKoord = function ($surfaceY, $xPosBeg, $xPosEnd, $begCol, $endCol) {
         //#int * hImgY = hImg->imageBuffer + yPos * hImg->width;	// Указатель для ускорения
-        if(cThis.props.interpolation_type == 0){		// Линейная интерполяция
+        if (cThis.props.interpolation_type == 0) {		// Линейная интерполяция
             $xStep = $xPosEnd - $xPosBeg;
             $differency = $endCol - $begCol;	// Разница между цветами
             $koef = $differency / $xStep;		// Коэффициент для прибавления
             $begColTemp = $begCol;		        // Дробный аналог begCol
-            while($xPosBeg < $xPosEnd){
-            //#*($hImgY + $xPosBeg) = (int)$begColTemp;
+            while ($xPosBeg < $xPosEnd) {
+                //#*($hImgY + $xPosBeg) = (int)$begColTemp;
                 $surfaceY[$xPosBeg] = Math.round($begColTemp);
                 $xPosBeg++;
                 $begColTemp += $koef;
             }
-        } else if(cThis.props.interpolation_type == 1){	// Интерполяция 2
+        } else if (cThis.props.interpolation_type == 1) {	// Интерполяция 2
             $angle = 1.5707963268;			        // Градусы для интерполяции
             $xStep = $xPosEnd - $xPosBeg;			// Кол-во пикселей для интерполяции (+1 для неполного завершения)
             $differency = $endCol - $begCol;	    // Разница между цветами
             $koef = 3.14159265359 / $xStep;	        // Коэффициент для прибавления к градусам
             //#double begColTemp;						// Дробный аналог begCol
-            while($xPosBeg < $xPosEnd){
+            while ($xPosBeg < $xPosEnd) {
                 $begColTemp = $endCol - $differency * ( (Math.sin($angle) + 1) / 2 );
                 //#*(hImgY + xPosBeg) = (int)begColTemp;
                 $surfaceY[$xPosBeg] = Math.round($begColTemp);
@@ -307,7 +263,7 @@ render.sineplasma = function () {
             $differency = $endCol - $begCol;	    // Разница между цветами
             $koef = 2. / $xStep;				    // Коэффициент для прибавления к коэффициенту асинуса
             //#double begColTemp;						// Дробный аналог begCol
-            while($xPosBeg < $xPosEnd){
+            while ($xPosBeg < $xPosEnd) {
                 $begColTemp = $endCol - $differency * ( (Math.asin($angle) + Math.PI / 2) / PI );
                 //#*(hImgY + xPosBeg) = (int)begColTemp;
                 $surfaceY[$xPosBeg] = Math.asin($begColTemp);
@@ -321,40 +277,48 @@ render.sineplasma = function () {
      * Разукрасим полученное изображение
      * @param array $surface - массив типа array([y] => array([x]))
      */
-    this.colorImage = function ($surface, $SubplasmaDepth, $colorRes)
-    {
+    this.colorImage = function ($surface, $SubplasmaDepth, $colorRes) {
         // Найдем самую высокую и нижнюю точку
-        $minVer = 0xFFFFFFFF;
-        $maxVer = 0;
+        var $minVer = 0xFFFFFFFF;
+        var $maxVer = 0;
         //#$count = $this->width * $this->height;
         //#int* hTemp = hImg->imageBuffer;
-        foreach($surface as $row)
-        {
-            foreach($row as $color) {
-            if($minVer > $color) $minVer = $color;
-            if($maxVer < $color) $maxVer = $color;
-        }
-        }
-        /*while($count--){
-         UINT color;
-         color = *hTemp++;
-         if(minVer > color) minVer = color;
-         if(maxVer < color) maxVer = color;
+
+        /*for(var i in $surface) {
+         if($minVer > $surface[i]) {
+         $minVer = $surface[i];
+         }
+         if($maxVer < $surface[i]) {
+         $maxVer = $surface[i];
+         }
          }*/
 
-        $differ = $maxVer - $minVer;
-        $koef = AlphaQuantumRange - $SubplasmaDepth;
-        $multiplier = AlphaQuantumRange - $koef;
+        //this.surf.getData();
+
+        for (var i in $surface) {
+            $row = $surface[i];
+            for (var j in $row) {
+                $color = $row[j];
+                if ($minVer > $color) {
+                    $minVer = $color;
+                }
+                if ($maxVer < $color) {
+                    $maxVer = $color;
+                }
+            }
+        }
+
+        var $differ = $maxVer - $minVer;
+        var $koef = 255 - $SubplasmaDepth;
+        var $multiplier = 255 - $koef;
         //#$incChannel = QuantumRange / 255;
 
         // Раскрасим рисунок
-        for($y = 0; $y < cThis.height; ++$y)
-        {
-            for($x = 0; $x < cThis.width; ++$x)
-            {
-                $channel = (int)(($surface[$y][$x] - $minVer) / $differ * $multiplier + $koef);	// Относительное положение цвета
-                //#$colorRes['alpha'] = (AlphaQuantumRange - $channel) * $incChannel;
-                $colorRes['alpha'] = AlphaQuantumRange - $channel;
+        for (var $y = 0; $y < cThis.height; ++$y) {
+            for (var $x = 0; $x < cThis.width; ++$x) {
+                $channel = Math.round((($surface[$y][$x] - $minVer) / $differ * $multiplier + $koef));	// Относительное положение цвета
+                //#$colorRes['alpha'] = (255 - $channel) * $incChannel;
+                $colorRes.a = 255 - $channel;
                 //Color::putColorToImage($this->image, $x, $y, $colorRes);
                 cThis.surf.px($x, $y, $colorRes);
             }

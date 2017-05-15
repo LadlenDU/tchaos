@@ -11,6 +11,8 @@
     <!-- Bootstrap -->
     <link href="/libs/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <script src="//cdn.polyfill.io/v1/polyfill.js?features=es6"></script>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -140,6 +142,7 @@
 </div>
 
 <!--<script src="js/bootstrap.min.js"></script>-->
+
 
 <script src="/js/helpers.js"></script>
 <script src="/js/core.js"></script>
