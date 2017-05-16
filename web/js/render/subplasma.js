@@ -1,4 +1,4 @@
-render.sineplasma = function () {
+render.subplasma = function () {
 
     var cThis = this;
 
@@ -33,8 +33,10 @@ render.sineplasma = function () {
 
             cThis.surf = surf;
 
-            var $SubpalsmaWidthDivision = $xDiv = props.width_div;
-            var $SubpalsmaHeightDivision = $yDiv = props.height_div;
+            var $xDiv = props.width_div;
+            //var $SubpalsmaWidthDivision = $xDiv;
+            var $yDiv = props.height_div;
+            //var $SubpalsmaHeightDivision = $yDiv;
 
             if (props.perlin_noise) {		// Создать и сложить 8 (несколько?) субплазм
                 // Создадим рабочее поле для плазмы
@@ -63,11 +65,12 @@ render.sineplasma = function () {
                     if (width / $xDiv < 1) break;
                     if (height / $yDiv < 1) break;
                 }
-                cThis.colorImage($ResCount, props.depth, $colorRes);
+                cThis.colorImage($ResCount, props.depth, props.color);
             } else {	// Простая субплазма
                 $imageBuffer = helper.surfaceArrayFill(width, height);
-                cThis.createPlasm($imageBuffer, $SubpalsmaWidthDivision, $SubpalsmaHeightDivision, 0x00FFFFFF);
-                cThis.colorImage($imageBuffer, props.depth, $colorRes);		// Разукрашиваем рисунок
+                //cThis.createPlasm($imageBuffer, $SubpalsmaWidthDivision, $SubpalsmaHeightDivision, 0x00FFFFFF);
+                cThis.createPlasm($imageBuffer, $xDiv, $yDiv, 0x00FFFFFF);
+                cThis.colorImage($imageBuffer, props.depth, props.color);		// Разукрашиваем рисунок
             }
 
         });
@@ -81,44 +84,46 @@ render.sineplasma = function () {
 
         //#UINT* colorUpGlobal = new UINT [divKoefWidth];		// Массив для верхних точек всего рисунка
         //$colorUpGlobal = array_fill(0, $divKoefWidth, 0);
-        $colorUpGlobal = helper.surfaceArrayFill(width, height);
+        var $colorUpGlobal = helper.surfaceArrayFill(cThis.width, cThis.height);
 
         //#UINT* colorDownToUp = new UINT [divKoefWidth];		// Массив для нижних точек строки, что станут верхними
-        $colorDownToUp = helper.surfaceArrayFill(width, height);
+        var $colorDownToUp = helper.surfaceArrayFill(cThis.width, cThis.height);
 
         // Запоминают значение правых точек чтобы сделать их левыми
-        $colorLeftToRightUp = 0;
-        $colorLeftToRightDown = 0;
+        var $colorLeftToRightUp = 0;
+        var $colorLeftToRightDown = 0;
         //#UINT firstXUpColor, firstXDownColor;	                // Самые левые точки текущей строки для совмещения с правой стороной
         //#UINT rightUpCol, rightDownCol;			            // Цвета для интерполяции - точки правой стороны
         // Конечные цвета для интерполяции
-        $endUpLeft = 0;
-        $endUpRight = 0;
-        $endDownLeft = 0;
-        $endDownRight = 0;
+        var $endUpLeft = 0;
+        var $endUpRight = 0;
+        var $endDownLeft = 0;
+        var $endDownRight = 0;
 
-        $xKoefForAdding = cThis.width / $divKoefWidth;
-        $yKoefForAdding = cThis.height / $divKoefHeight;
+        var $xKoefForAdding = cThis.width / $divKoefWidth;
+        var $yKoefForAdding = cThis.height / $divKoefHeight;
 
-        $y = 0;
-        for ($yCount = 1; $yCount <= $divKoefHeight; $yCount++) {
-            $x = 0;
-            for ($xCount = 1; $xCount <= $divKoefWidth; $xCount++) {
+        var $y = 0;
+        for (var $yCount = 1; $yCount <= $divKoefHeight; $yCount++) {
+            var $x = 0;
+            for (var $xCount = 1; $xCount <= $divKoefWidth; $xCount++) {
                 //#int xRealPos, yRealPos;		// Правая и нижняя координаты, подогнанные под края
-                $xRealPos = Math.round($x + $xKoefForAdding); //if(xRealPos > hImg->width) xRealPos = hImg->width;
-                $yRealPos = Math.round($y + $yKoefForAdding); //if(yRealPos > hImg->height) yRealPos = hImg->height;
+                var $xRealPos = Math.round($x + $xKoefForAdding); //if(xRealPos > hImg->width) xRealPos = hImg->width;
+                var $yRealPos = Math.round($y + $yKoefForAdding); //if(yRealPos > hImg->height) yRealPos = hImg->height;
 
-                $endDownRight = $rightDownCol = rand(0, $colorMax);	// Правый нижний угол
+                // Правый нижний угол
+                var $rightDownCol = props_r.range_int(0, $colorMax);
+                $endDownRight = $rightDownCol;
                 if ($yCount == 1) {	// Самая верхняя строка
                     if ($xCount == 1) {	// Случайно найдем левые углы
-                        $colorLeftToRightUp = rand(0, $colorMax);
-                        $colorLeftToRightDown = rand(0, $colorMax);
+                        $colorLeftToRightUp = props_r.range_int(0, $colorMax);
+                        $colorLeftToRightDown = props_r.range_int(0, $colorMax);
                     } else {	// Левым углам присвоим значения правых предыдущей фигуры
                         $colorLeftToRightUp = $endUpRight;
                     }
 
                     // Случайно найдем правый верхний угол
-                    $rightUpCol = rand(0, $colorMax);
+                    var $rightUpCol = props_r.range_int(0, $colorMax);
                     $colorUpGlobal[$xCount - 1] = $colorLeftToRightUp;	// Запоминаем значения цветов верхней линии
                     $endUpLeft = $colorLeftToRightUp;
                     $endUpRight = $rightUpCol;
@@ -134,8 +139,8 @@ render.sineplasma = function () {
                     $endDownLeft = $colorLeftToRightDown;
                 }
                 if ($xCount == 1) {	// Левая сторона строки
-                    $firstXUpColor = $endUpLeft;
-                    $firstXDownColor = $endDownLeft;
+                    var $firstXUpColor = $endUpLeft;
+                    var $firstXDownColor = $endDownLeft;
                 }
                 if ($xCount == $divKoefWidth) {	// Последний прямоугольник строки
                     $endUpRight = $firstXUpColor;
@@ -171,13 +176,13 @@ render.sineplasma = function () {
             //#int vertDifferLeft, vertDifferRight;	// Разница цветов по оси Y с левой стороны и с правой
             //#double vertKoefLeft, vertKoefRight;		// Коэффициент для прибавления к цвету по оси Y
             //#double leftCurrCol, rightCurrCol;		// Текуще интерполируемые цвета по обеим боковым сторонам прямоугольника
-            $yStep = $yPosDown - $yPosUp;
-            $vertDifferLeft = $leftDownCol - $leftUpCol;
-            $vertDifferRight = $rightDownCol - $rightUpCol;
-            $vertKoefLeft = $vertDifferLeft / $yStep;
-            $vertKoefRight = $vertDifferRight / $yStep;
-            $leftCurrCol = $leftUpCol;
-            $rightCurrCol = $rightUpCol;
+            var $yStep = $yPosDown - $yPosUp;
+            var $vertDifferLeft = $leftDownCol - $leftUpCol;
+            var $vertDifferRight = $rightDownCol - $rightUpCol;
+            var $vertKoefLeft = $vertDifferLeft / $yStep;
+            var $vertKoefRight = $vertDifferRight / $yStep;
+            var $leftCurrCol = $leftUpCol;
+            var $rightCurrCol = $rightUpCol;
             while ($yPosUp < $yPosDown) {
                 cThis.interpolateXKoord($surface[$yPosUp], $xPosLeft, $xPosRight, Math.round($leftCurrCol), Math.round($rightCurrCol));
                 $yPosUp++;
@@ -205,7 +210,7 @@ render.sineplasma = function () {
                 $rightCurrCol += $vertKoefRight;
             }
         } else {	// Интерполяция 3
-            $angle = 1;						// Коэффициент асинуса для интерполяции
+            var $angle = 1;						// Коэффициент асинуса для интерполяции
             //#int yStep;								// Длина сторон исследуемого прямоугольника
             //#int vertDifferLeft, vertDifferRight;	// Разница цветов по оси Y с левой стороны и с правой
             //#double vertKoef;						// Коэффициент для прибавления к градусам по оси Y
@@ -213,7 +218,7 @@ render.sineplasma = function () {
             $yStep = $yPosDown - $yPosUp;
             $vertDifferLeft = $leftDownCol - $leftUpCol;
             $vertDifferRight = $rightDownCol - $rightUpCol;
-            $vertKoef = 2. / $yStep;
+            var $vertKoef = 2. / $yStep;
             $leftCurrCol = $leftUpCol;
             $rightCurrCol = $rightUpCol;
             while ($yPosUp < $yPosDown) {
@@ -231,13 +236,13 @@ render.sineplasma = function () {
      * Интерполирует на изображении от begCol до endCol, в заданных позициях
      * @param array $surfaceY полоса по оси y
      */
-    this.InterpolateXKoord = function ($surfaceY, $xPosBeg, $xPosEnd, $begCol, $endCol) {
+    this.interpolateXKoord = function ($surfaceY, $xPosBeg, $xPosEnd, $begCol, $endCol) {
         //#int * hImgY = hImg->imageBuffer + yPos * hImg->width;	// Указатель для ускорения
         if (cThis.props.interpolation_type == 0) {		// Линейная интерполяция
-            $xStep = $xPosEnd - $xPosBeg;
-            $differency = $endCol - $begCol;	// Разница между цветами
-            $koef = $differency / $xStep;		// Коэффициент для прибавления
-            $begColTemp = $begCol;		        // Дробный аналог begCol
+            var $xStep = $xPosEnd - $xPosBeg;
+            var $differency = $endCol - $begCol;	// Разница между цветами
+            var $koef = $differency / $xStep;		// Коэффициент для прибавления
+            var $begColTemp = $begCol;		        // Дробный аналог begCol
             while ($xPosBeg < $xPosEnd) {
                 //#*($hImgY + $xPosBeg) = (int)$begColTemp;
                 $surfaceY[$xPosBeg] = Math.round($begColTemp);
@@ -245,7 +250,7 @@ render.sineplasma = function () {
                 $begColTemp += $koef;
             }
         } else if (cThis.props.interpolation_type == 1) {	// Интерполяция 2
-            $angle = 1.5707963268;			        // Градусы для интерполяции
+            var $angle = 1.5707963268;			        // Градусы для интерполяции
             $xStep = $xPosEnd - $xPosBeg;			// Кол-во пикселей для интерполяции (+1 для неполного завершения)
             $differency = $endCol - $begCol;	    // Разница между цветами
             $koef = 3.14159265359 / $xStep;	        // Коэффициент для прибавления к градусам
@@ -296,9 +301,9 @@ render.sineplasma = function () {
         //this.surf.getData();
 
         for (var i in $surface) {
-            $row = $surface[i];
+            var $row = $surface[i];
             for (var j in $row) {
-                $color = $row[j];
+                var $color = $row[j];
                 if ($minVer > $color) {
                     $minVer = $color;
                 }
@@ -316,7 +321,7 @@ render.sineplasma = function () {
         // Раскрасим рисунок
         for (var $y = 0; $y < cThis.height; ++$y) {
             for (var $x = 0; $x < cThis.width; ++$x) {
-                $channel = Math.round((($surface[$y][$x] - $minVer) / $differ * $multiplier + $koef));	// Относительное положение цвета
+                var $channel = Math.round((($surface[$y][$x] - $minVer) / $differ * $multiplier + $koef));	// Относительное положение цвета
                 //#$colorRes['alpha'] = (255 - $channel) * $incChannel;
                 $colorRes.a = 255 - $channel;
                 //Color::putColorToImage($this->image, $x, $y, $colorRes);
