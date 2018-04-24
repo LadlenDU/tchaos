@@ -41,6 +41,7 @@ render.subplasma = function () {
             if (props.perlin_noise) {		// Создать и сложить 8 (несколько?) субплазм
                 // Создадим рабочее поле для плазмы
                 //$imageBuffer = array_fill(0, height, array_fill(0, width, 0));
+                clog("width: " + width + "; height: " + height);
                 var $imageBuffer = helper.surfaceArrayFill(width, height);
 
                 var $count = 4;		// Счетчик плазм
@@ -70,6 +71,7 @@ render.subplasma = function () {
                 $imageBuffer = helper.surfaceArrayFill(width, height);
                 //cThis.createPlasm($imageBuffer, $SubpalsmaWidthDivision, $SubpalsmaHeightDivision, 0x00FFFFFF);
                 cThis.createPlasm($imageBuffer, $xDiv, $yDiv, 0x00FFFFFF);
+                clog("props.depth: " + props.depth + "; props.color: " + props.color);
                 cThis.colorImage($imageBuffer, props.depth, props.color);		// Разукрашиваем рисунок
             }
 
@@ -223,8 +225,8 @@ render.subplasma = function () {
             $rightCurrCol = $rightUpCol;
             while ($yPosUp < $yPosDown) {
                 // Изменение интерполируемых цветов
-                $leftCurrCol = $leftDownCol - $vertDifferLeft * ( (Math.asin($angle) + Math.PI / 2) / PI );
-                $rightCurrCol = $rightDownCol - $vertDifferRight * ( (Math.asin($angle) + Math.PI / 2) / PI );
+                $leftCurrCol = $leftDownCol - $vertDifferLeft * ( (Math.asin($angle) + Math.PI / 2) / Math.PI );
+                $rightCurrCol = $rightDownCol - $vertDifferRight * ( (Math.asin($angle) + Math.PI / 2) / Math.PI );
                 cThis.interpolateXKoord($surface[$yPosUp], $xPosLeft, $xPosRight, Math.round($leftCurrCol), Math.round($rightCurrCol));
                 $yPosUp++;
                 $angle -= $vertKoef;
@@ -269,7 +271,7 @@ render.subplasma = function () {
             $koef = 2. / $xStep;				    // Коэффициент для прибавления к коэффициенту асинуса
             //#double begColTemp;						// Дробный аналог begCol
             while ($xPosBeg < $xPosEnd) {
-                $begColTemp = $endCol - $differency * ( (Math.asin($angle) + Math.PI / 2) / PI );
+                $begColTemp = $endCol - $differency * ( (Math.asin($angle) + Math.PI / 2) / Math.PI );
                 //#*(hImgY + xPosBeg) = (int)begColTemp;
                 $surfaceY[$xPosBeg] = Math.asin($begColTemp);
                 $xPosBeg++;

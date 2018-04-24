@@ -49,12 +49,12 @@
                     <input type="checkbox" name="tile" checked="checked"> Tile
                 </label>
             </div>
-            <button class="btn btn-default" title="Generate a texture" name="create_btn">Create</button>
             <button type="submit" class="btn btn-default" title="Save the texture" name="save_btn" disabled="disabled">
                 Save
             </button>
         </div>
     </form>
+    <button class="btn btn-default" title="Generate a texture" name="create_btn">Create</button>
 
     <div class="texture_container_wrapper">
         <div class="texture_container"></div>
@@ -142,7 +142,6 @@
 </div>
 
 <!--<script src="js/bootstrap.min.js"></script>-->
-
 
 <script src="/js/helpers.js"></script>
 <script src="/js/core.js"></script>

@@ -16,5 +16,14 @@ helper.extend = function (Child, Parent) {
 };
 
 helper.surfaceArrayFill = function (width, height) {
-    return [].fill([].fill(0, 0, width - 1), 0, height - 1);
+    //return [].fill([].fill(0, 0, width - 1), 0, height - 1);
+
+    var row = [].fill.call({length: width}, 0);
+    //return [].fill.call({length: height}, row);
+
+    var arr = [];
+    for (var i = 0; i < height; ++i) {
+        arr.push(row);
+    }
+    return arr;
 };
