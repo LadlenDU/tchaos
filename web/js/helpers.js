@@ -27,3 +27,16 @@ helper.surfaceArrayFill = function (width, height) {
     }
     return arr;
 };
+
+helper.surfaceArrayToDirectSurface = function (surfaceArray, directSurface) {
+    if (!surfaceArray.length) {
+        return;
+    }
+    var width = surfaceArray[0].length;
+    var height = surfaceArray.length;
+    for (var y = 0; y < height; ++y) {
+        for (var x = 0; x < width; ++x) {
+            directSurface.px(x, y, pic.integerToColor(surfaceArray[y][x]));
+        }
+    }
+};

@@ -82,6 +82,16 @@ var pic = {
     colorArrToRGBA: function (arr) {
         return "rgba(" + arr.r + "," + arr.g + "," + arr.b + "," + (arr.a / 255) + ")";
     },
+    integerToColor: function (num) {
+        //TODO: check if this is right functionality
+        var color = {
+            r: (num >> 16) | 0xFF,
+            g: (num >> 8) | 0xFF,
+            b: num | 0xFF,
+            a: (num >> 24) | 0xFF
+        };
+        return color;
+    },
     //TODO: obsolete
     getRandomChannel: function (min, max) {
         if (!min) {
