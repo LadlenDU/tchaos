@@ -85,10 +85,11 @@ var pic = {
     integerToColor: function (num) {
         //TODO: check if this is right functionality
         var color = {
-            r: (num >> 16) | 0xFF,
-            g: (num >> 8) | 0xFF,
-            b: num | 0xFF,
-            a: (num >> 24) | 0xFF
+            r: (num >> 16) & 0xFF,
+            g: (num >> 8) & 0xFF,
+            b: num & 0xFF,
+            //a: (num >> 24) & 0xFF
+            a: 0xFF
         };
         return color;
     },

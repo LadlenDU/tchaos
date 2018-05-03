@@ -89,10 +89,15 @@
                 sineplasma.run(canvas2, width, height, props);*/
                 //render.figures(canvas2);
 
-                var canvas2 = new Canvas(width, height);
+                /*var canvas2 = new Canvas(width, height);
                 var subplasma = new render.subplasma();
                 props = prepareProperties(subplasma.props);
-                subplasma.run(canvas2, width, height, props);
+                subplasma.run(canvas2, width, height, props);*/
+
+                var canvas2 = new Canvas(width, height);
+                var fractal_line = new render.fractal_line();
+                props = prepareProperties(fractal_line.props);
+                fractal_line.run(canvas2, width, height, props);
 
                 canvas.ctx().globalAlpha = 0.2;
                 canvas.ctx().drawImage(canvas2.canvas(), 0, 0);

@@ -38,7 +38,8 @@ render.subplasma = function () {
             var $yDiv = props.height_div;
             //var $SubpalsmaHeightDivision = $yDiv;
 
-            if (props.perlin_noise) {		// Создать и сложить 8 (несколько?) субплазм
+            //if (props.perlin_noise) {		// Создать и сложить 8 (несколько?) субплазм
+            if (0) {
                 // Создадим рабочее поле для плазмы
                 //$imageBuffer = array_fill(0, height, array_fill(0, width, 0));
                 clog("width: " + width + "; height: " + height);
@@ -71,8 +72,9 @@ render.subplasma = function () {
                 $imageBuffer = helper.surfaceArrayFill(width, height);
                 //cThis.createPlasm($imageBuffer, $SubpalsmaWidthDivision, $SubpalsmaHeightDivision, 0x00FFFFFF);
                 cThis.createPlasm($imageBuffer, $xDiv, $yDiv, 0x00FFFFFF);
-                clog("props.depth: " + props.depth + "; props.color: " + props.color);
-                cThis.colorImage($imageBuffer, props.depth, props.color);		// Разукрашиваем рисунок
+                helper.surfaceArrayToDirectSurface($imageBuffer, cThis.surf);
+                //clog("props.depth: " + props.depth + "; props.color: " + props.color);
+                //cThis.colorImage($imageBuffer, props.depth, props.color);		// Разукрашиваем рисунок
             }
 
         });
@@ -160,6 +162,7 @@ render.subplasma = function () {
                     $yRealPos = cThis.height;
                 }
                 // Интерполяция
+                //InterpolateYKoord(        hImg,         (int)y,  yRealPos,         (int)x,  xRealPos,  endUpLeft,  endUpRight,  endDownLeft,  endDownRight);
                 cThis.interpolateYKoord($surface, Math.round($y), $yRealPos, Math.round($x), $xRealPos, $endUpLeft, $endUpRight, $endDownLeft, $endDownRight);
                 $colorDownToUp[$xCount - 1] = $colorLeftToRightDown;
                 $colorLeftToRightDown = $rightDownCol;
@@ -187,6 +190,7 @@ render.subplasma = function () {
             var $rightCurrCol = $rightUpCol;
             while ($yPosUp < $yPosDown) {
                 cThis.interpolateXKoord($surface[$yPosUp], $xPosLeft, $xPosRight, Math.round($leftCurrCol), Math.round($rightCurrCol));
+                //cThis.interpolateXKoord($surface, $xPosLeft, $xPosRight, Math.round($leftCurrCol), Math.round($rightCurrCol));
                 $yPosUp++;
                 // Изменение интерполируемых цветов
                 $leftCurrCol += $vertKoefLeft;
@@ -206,6 +210,7 @@ render.subplasma = function () {
             $rightCurrCol = $rightUpCol;
             while ($yPosUp < $yPosDown) {
                 cThis.interpolateXKoord($surface[$yPosUp], $xPosLeft, $xPosRight, Math.round($leftCurrCol), Math.round($rightCurrCol));
+                //cThis.interpolateXKoord($surface, $xPosLeft, $xPosRight, Math.round($leftCurrCol), Math.round($rightCurrCol));
                 $yPosUp++;
                 // Изменение интерполируемых цветов
                 $leftCurrCol += $vertKoefLeft;
@@ -228,6 +233,7 @@ render.subplasma = function () {
                 $leftCurrCol = $leftDownCol - $vertDifferLeft * ( (Math.asin($angle) + Math.PI / 2) / Math.PI );
                 $rightCurrCol = $rightDownCol - $vertDifferRight * ( (Math.asin($angle) + Math.PI / 2) / Math.PI );
                 cThis.interpolateXKoord($surface[$yPosUp], $xPosLeft, $xPosRight, Math.round($leftCurrCol), Math.round($rightCurrCol));
+                //cThis.interpolateXKoord($surface, $xPosLeft, $xPosRight, Math.round($leftCurrCol), Math.round($rightCurrCol));
                 $yPosUp++;
                 $angle -= $vertKoef;
             }
