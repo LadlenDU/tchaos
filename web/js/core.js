@@ -116,6 +116,11 @@ var pic = {
 
 var props_r = {
     // If max is not set or min == max then this is not a range but a regular number equal min.
+    range_int_between: function (min, max) {
+        var val1 = Math.floor(Math.random() * (max - min + 1)) + min;
+        var val2 = Math.floor(Math.random() * (max - min + 1)) + min;
+        return (val1 < val2) ? {min: val1, max: val2} : {min: val2, max: val1};
+    },
     range_int: function (min, max) {
         if ((!max && max !== 0) || min == max) {
             return min;
